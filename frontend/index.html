@@ -1,58 +1,158 @@
-
 <!DOCTYPE html>
+<html lang="id">
 
-<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GhostWriter Komitan</title>
-<link rel="stylesheet" href="/frontend/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GhostWriter Komitan</title>
+
+    <link rel="stylesheet"
+          href="/frontend/style.css">
 </head>
+
 <body>
 
-<div class="sidebar">
+<div id="app">
 
-<h2>GhostWriter</h2>
+    <aside id="sidebar">
 
-<button onclick="showPage('chat')">Chat</button> <button onclick="showPage('writer')">Writer</button> <button onclick="showPage('training')">Training</button> <button onclick="showPage('settings')">Settings</button>
+        <div id="logo">
+            <h1>GhostWriter</h1>
+            <p>Komitan</p>
+        </div>
 
-</div>
+        <nav>
 
-<div class="content">
+            <button data-page="dashboard">
+                Dashboard
+            </button>
 
-<div id="chat" class="page">
+            <button data-page="chat">
+                Chat
+            </button>
 
-<h2>Chat</h2>
+            <button data-page="writer">
+                Writer
+            </button>
 
-<textarea id="chatInput"></textarea>
+            <button data-page="brain">
+                WritingBrain
+            </button>
 
-<button onclick="sendChat()">Kirim</button>
+            <button data-page="models">
+                Models
+            </button>
 
-<pre id="chatOutput"></pre>
+            <button data-page="sync">
+                Sync
+            </button>
 
-</div>
+            <button data-page="settings">
+                Settings
+            </button>
 
-<div id="writer" class="page hidden">
-<h2>Writer</h2>
-<p>Coming Soon</p>
-</div>
+        </nav>
 
-<div id="training" class="page hidden">
-<h2>Training</h2>
-<p>Coming Soon</p>
-</div>
+    </aside>
 
-<div id="settings" class="page hidden">
+    <main id="content">
 
-<h2>Settings</h2>
+        <section id="dashboard">
 
-<button onclick="checkStatus()">
-Check Status
-</button>
+            <h2>Dashboard</h2>
 
-<pre id="statusOutput"></pre>
+            <p>
+                Selamat datang di GhostWriter Komitan.
+            </p>
 
-</div>
+        </section>
+
+        <section id="chat" hidden>
+
+            <h2>Chat</h2>
+
+            <div id="chat-history">
+            </div>
+
+            <textarea
+                id="chat-input"
+                placeholder="Tulis pesan...">
+            </textarea>
+
+            <button id="send-chat">
+                Kirim
+            </button>
+
+        </section>
+
+        <section id="writer" hidden>
+
+            <h2>Writer</h2>
+
+            <input
+                type="text"
+                id="writer-topic"
+                placeholder="Topik">
+
+            <textarea
+                id="writer-prompt"
+                placeholder="Instruksi">
+            </textarea>
+
+            <button id="generate-writer">
+                Generate
+            </button>
+
+        </section>
+
+        <section id="brain" hidden>
+
+            <h2>WritingBrain</h2>
+
+            <div id="brain-files">
+            </div>
+
+        </section>
+
+        <section id="models" hidden>
+
+            <h2>Models</h2>
+
+            <div id="installed-models">
+            </div>
+
+            <button id="refresh-models">
+                Refresh
+            </button>
+
+        </section>
+
+        <section id="sync" hidden>
+
+            <h2>Sync</h2>
+
+            <button id="push-brain">
+                Push Brain
+            </button>
+
+            <button id="pull-brain">
+                Pull Brain
+            </button>
+
+        </section>
+
+        <section id="settings" hidden>
+
+            <h2>Settings</h2>
+
+            <div id="settings-content">
+            </div>
+
+        </section>
+
+    </main>
 
 </div>
 
