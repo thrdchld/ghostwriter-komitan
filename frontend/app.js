@@ -1,16 +1,20 @@
 // ========================
 // GhostWriter Komitan
-// app.js
 // ========================
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    initNavigation();
+```
+initNavigation();
 
-    showPage("dashboard");
+showPage("dashboard");
+
+getStatus();
+
+loadModels();
+```
 
 });
-
 
 // ========================
 // Navigation
@@ -18,217 +22,159 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initNavigation() {
 
-    const buttons =
-        document.querySelectorAll("[data-page]");
+```
+const buttons =
+    document.querySelectorAll("[data-page]");
 
-    buttons.forEach(button => {
+buttons.forEach(button => {
 
-        button.addEventListener("click", () => {
+    button.addEventListener("click", () => {
 
-            const page =
-                button.dataset.page;
+        const page =
+            button.dataset.page;
 
-            showPage(page);
-
-        });
+        showPage(page);
 
     });
+
+});
+```
 
 }
 
 function showPage(pageId) {
 
-    const sections =
-        document.querySelectorAll("main section");
+```
+const sections =
+    document.querySelectorAll("main section");
 
-    sections.forEach(section => {
+sections.forEach(section => {
 
-        section.hidden = true;
+    section.hidden = true;
 
-    });
+});
 
-    const target =
-        document.getElementById(pageId);
+const target =
+    document.getElementById(pageId);
 
-    if (target) {
+if (target) {
 
-        target.hidden = false;
+    target.hidden = false;
 
-    }
+}
+```
 
 }
 
-
 // ========================
-// Status API
+// Status
 // ========================
 
 async function getStatus() {
 
-    try {
+```
+try {
 
-        const response =
-            await fetch("/api/status");
+    const response =
+        await fetch("/api/status");
 
-        const data =
-            await response.json();
+    const data =
+        await response.json();
 
-        const settings =
-            document.getElementById(
-                "settings-content"
-            );
+    const container =
+        document.getElementById(
+            "settings-content"
+        );
 
-        if (settings) {
+    if (container) {
 
-            settings.innerHTML = `
-                <pre>
-${JSON.stringify(data, null, 2)}
-                </pre>
-            `;
-
-        }
-
-    } catch (error) {
-
-        console.error(error);
+        container.innerHTML =
+            `<pre>${JSON.stringify(data,null,2)}</pre>`;
 
     }
 
+} catch(error) {
+
+    console.error(error);
+
+}
+```
+
 }
 
-
 // ========================
-// Chat Dummy
+// Chat
 // ========================
 
 async function sendChat() {
 
-    const input =
-        document.getElementById(
-            "chat-input"
-        );
+```
+const input =
+    document.getElementById(
+        "chat-input"
+    );
 
-    if (!input) return;
+if (!input) return;
 
-    const message =
-        input.value.trim();
+const message =
+    input.value.trim();
 
-    if (!message) return;
+if (!message) return;
 
-    const history =
-        document.getElementById(
-            "chat-history"
-        );
+const history =
+    document.getElementById(
+        "chat-history"
+    );
+
+history.innerHTML += `
+    <p><b>Kamu:</b> ${message}</p>
+`;
+
+try {
+
+    const response =
+        await fetch("/api/chat", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
+
+            body: JSON.stringify({
+                message: message
+            })
+
+        });
+
+    const data =
+        await response.json();
 
     history.innerHTML += `
-        <p><b>Kamu:</b> ${message}</p>
+        <p><b>Komitan:</b> ${data.reply}</p>
     `;
 
-    try {
+    history.scrollTop =
+        history.scrollHeight;
 
-        const response =
-            await fetch("/api/chat", {
+} catch(error) {
 
-                method: "POST",
-
-                headers: {
-                    "Content-Type":
-                        "application/json"
-                },
-
-                body: JSON.stringify({
-                    message: message
-                })
-
-            });
-
-        const data =
-            await response.json();
-
-        history.innerHTML += `
-            <p><b>Komitan:</b> ${data.reply}</p>
-        `;
-
-        history.scrollTop =
-            history.scrollHeight;
-
-    } catch (error) {
-
-        history.innerHTML += `
-            <p><b>Error:</b> ${error}</p>
-        `;
-
-    }
-
-    input.value = "";
+    history.innerHTML += `
+        <p><b>Error:</b> ${error}</p>
+    `;
 
 }
 
+input.value = "";
+```
+
+}
 
 // ========================
-// Event Binding
+// Models
 // ========================
 
-document.addEventListener(
-    "click",
-    (event) => {
-
-        if (
-            event.target.id ===
-            "send-chat"
-        ) {
-            sendChat();
-        }
-
-        if (
-            event.target.id ===
-            "refresh-models"
-        ) {
-
-            alert(
-                "Model Manager belum aktif"
-            );
-
-        }
-
-        if (
-            event.target.id ===
-            "push-brain"
-        ) {
-
-            alert(
-                "Push Brain belum aktif"
-            );
-
-        }
-
-        if (
-            event.target.id ===
-            "pull-brain"
-        ) {
-
-            alert(
-                "Pull Brain belum aktif"
-            );
-
-        }
-
-    }
-);
-
-
-// ========================
-// Auto Load
-// ========================
-
-window.addEventListener(
-    "load",
-    () => {
-
-        getStatus();
-
-    }
-);
 async function loadModels() {
 
 ```
@@ -250,7 +196,7 @@ try {
     if (!data.success) {
 
         container.innerHTML =
-            data.error;
+            `<p>${data.error}</p>`;
 
         return;
 
@@ -272,7 +218,9 @@ try {
 
             <p>${model.repo}</p>
 
-            <button>
+            <button onclick="
+                alert('Load model belum aktif')
+            ">
                 Load
             </button>
 
@@ -292,12 +240,45 @@ try {
 
 }
 
-window.addEventListener(
-"load",
-() => {
+// ========================
+// Global Click Events
+// ========================
+
+document.addEventListener(
+"click",
+(event) => {
 
 ```
-    loadModels();
+    if (
+        event.target.id ===
+        "send-chat"
+    ) {
+
+        sendChat();
+
+    }
+
+    if (
+        event.target.id ===
+        "push-brain"
+    ) {
+
+        alert(
+            "Push Brain belum aktif"
+        );
+
+    }
+
+    if (
+        event.target.id ===
+        "pull-brain"
+    ) {
+
+        alert(
+            "Pull Brain belum aktif"
+        );
+
+    }
 
 }
 ```

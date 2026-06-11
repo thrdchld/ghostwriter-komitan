@@ -2,36 +2,39 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+import json
 
 app = FastAPI()
 
 app.mount(
-    "/frontend",
-    StaticFiles(directory="frontend"),
-    name="frontend"
+"/frontend",
+StaticFiles(directory="frontend"),
+name="frontend"
 )
 
 class ChatRequest(BaseModel):
-    message: str
+message: str
 
 @app.get("/")
 def home():
-    return FileResponse("frontend/index.html")
+return FileResponse("frontend/index.html")
 
 @app.get("/api/status")
 def status():
-    return {
-        "status": "online",
-        "app": "GhostWriter Komitan",
-        "version": "0.5"
-    }
+return {
+"status": "online",
+"app": "GhostWriter Komitan",
+"version": "0.5"
+}
 
 @app.post("/api/chat")
 def chat(req: ChatRequest):
-    return {
-        "reply": f"GhostWriter menerima: {req.message}"
-    }
-import json
+
+```
+return {
+    "reply": f"GhostWriter menerima: {req.message}"
+}
+```
 
 @app.get("/api/models")
 def get_models():
@@ -59,4 +62,3 @@ except Exception as e:
         "error": str(e)
     }
 ```
-
