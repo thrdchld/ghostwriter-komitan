@@ -4,4 +4,4 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"status": "GhostWriter Komitan Online"}
+    return {"status":"GhostWriter Komitan Auto Deploy"}
