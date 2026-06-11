@@ -7,58 +7,53 @@ import json
 app = FastAPI()
 
 app.mount(
-"/frontend",
-StaticFiles(directory="frontend"),
-name="frontend"
+    "/frontend",
+    StaticFiles(directory="frontend"),
+    name="frontend"
 )
 
 class ChatRequest(BaseModel):
-message: str
+    message: str
 
 @app.get("/")
 def home():
-return FileResponse("frontend/index.html")
+    return FileResponse("frontend/index.html")
 
 @app.get("/api/status")
 def status():
-return {
-"status": "online",
-"app": "GhostWriter Komitan",
-"version": "0.5"
-}
+    return {
+        "status": "online",
+        "app": "GhostWriter Komitan",
+        "version": "0.5"
+    }
 
 @app.post("/api/chat")
 def chat(req: ChatRequest):
-
-```
-return {
-    "reply": f"GhostWriter menerima: {req.message}"
-}
-```
+    return {
+        "reply": f"GhostWriter menerima: {req.message}"
+    }
 
 @app.get("/api/models")
 def get_models():
 
-```
-try:
+    try:
 
-    with open(
-        "models.json",
-        "r",
-        encoding="utf-8"
-    ) as f:
+        with open(
+            "models.json",
+            "r",
+            encoding="utf-8"
+        ) as f:
 
-        models = json.load(f)
+            models = json.load(f)
 
-    return {
-        "success": True,
-        "models": models
-    }
+        return {
+            "success": True,
+            "models": models
+        }
 
-except Exception as e:
+    except Exception as e:
 
-    return {
-        "success": False,
-        "error": str(e)
-    }
-```
+        return {
+            "success": False,
+            "error": str(e)
+        }
