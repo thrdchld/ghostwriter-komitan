@@ -1,18 +1,220 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <title>GhostWriter Komitan</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GhostWriter Komitan</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+}
+
+header{
+    background:#222;
+    color:white;
+    padding:15px;
+}
+
+header h1{
+    font-size:24px;
+}
+
+nav{
+    display:flex;
+    gap:10px;
+    margin-top:10px;
+}
+
+nav button{
+    padding:10px 15px;
+    cursor:pointer;
+    border:none;
+    border-radius:6px;
+}
+
+main{
+    padding:20px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+textarea{
+    width:100%;
+    min-height:200px;
+    padding:10px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+}
+
+button.action{
+    margin-top:10px;
+    padding:10px 15px;
+}
+
+pre{
+    background:#111;
+    color:#0f0;
+    padding:15px;
+    border-radius:8px;
+    overflow:auto;
+}
+</style>
+
 </head>
 <body>
-    <h1>GhostWriter Komitan</h1>
 
-    <button>Chat</button>
-    <button>Writer</button>
-    <button>Training</button>
-    <button>Settings</button>
+<header>
 
-    <hr>
+<h1>GhostWriter Komitan</h1>
 
-    <p>GhostWriter Komitan berhasil berjalan.</p>
+<nav>
+<button onclick="showPage('chat')">Chat</button>
+<button onclick="showPage('writer')">Writer</button>
+<button onclick="showPage('training')">Training</button>
+<button onclick="showPage('settings')">Settings</button>
+</nav>
+
+</header>
+
+<main>
+
+<section id="chat" class="page active">
+
+<div class="card">
+
+<h2>Chat AI</h2>
+
+<br>
+
+<textarea placeholder="Tulis pesan di sini..."></textarea>
+
+<button class="action">
+Kirim
+</button>
+
+</div>
+
+</section>
+
+<section id="writer" class="page">
+
+<div class="card">
+
+<h2>GhostWriter Writer</h2>
+
+<br>
+
+<textarea placeholder="Masukkan ide tulisan..."></textarea>
+
+<button class="action">
+Generate
+</button>
+
+</div>
+
+</section>
+
+<section id="training" class="page">
+
+<div class="card">
+
+<h2>Training Center</h2>
+
+<br>
+
+<p>
+Tempat upload lesson, style profile, dan memory.
+</p>
+
+</div>
+
+</section>
+
+<section id="settings" class="page">
+
+<div class="card">
+
+<h2>Settings</h2>
+
+<br>
+
+<button onclick="checkStatus()">
+Check Server Status
+</button>
+
+<br><br>
+
+<pre id="status-output">
+Belum dicek
+</pre>
+
+</div>
+
+</section>
+
+</main>
+
+<script>
+
+function showPage(pageId){
+
+    document
+    .querySelectorAll('.page')
+    .forEach(page => {
+        page.classList.remove('active');
+    });
+
+    document
+    .getElementById(pageId)
+    .classList.add('active');
+}
+
+async function checkStatus(){
+
+    try{
+
+        const response = await fetch('/api/status');
+
+        const data = await response.json();
+
+        document.getElementById('status-output').textContent =
+            JSON.stringify(data,null,2);
+
+    }catch(error){
+
+        document.getElementById('status-output').textContent =
+            error.toString();
+
+    }
+
+}
+
+</script>
+
 </body>
 </html>
