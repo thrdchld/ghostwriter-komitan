@@ -31,3 +31,32 @@ def chat(req: ChatRequest):
     return {
         "reply": f"GhostWriter menerima: {req.message}"
     }
+import json
+
+@app.get("/api/models")
+def get_models():
+
+```
+try:
+
+    with open(
+        "models.json",
+        "r",
+        encoding="utf-8"
+    ) as f:
+
+        models = json.load(f)
+
+    return {
+        "success": True,
+        "models": models
+    }
+
+except Exception as e:
+
+    return {
+        "success": False,
+        "error": str(e)
+    }
+```
+

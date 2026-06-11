@@ -229,3 +229,77 @@ window.addEventListener(
 
     }
 );
+async function loadModels() {
+
+```
+try {
+
+    const response =
+        await fetch("/api/models");
+
+    const data =
+        await response.json();
+
+    const container =
+        document.getElementById(
+            "installed-models"
+        );
+
+    if (!container) return;
+
+    if (!data.success) {
+
+        container.innerHTML =
+            data.error;
+
+        return;
+
+    }
+
+    let html = "";
+
+    data.models.forEach(model => {
+
+        html += `
+        <div style="
+            border:1px solid #444;
+            padding:12px;
+            margin-bottom:10px;
+            border-radius:10px;
+        ">
+
+            <h3>${model.name}</h3>
+
+            <p>${model.repo}</p>
+
+            <button>
+                Load
+            </button>
+
+        </div>
+        `;
+
+    });
+
+    container.innerHTML = html;
+
+} catch(error) {
+
+    console.error(error);
+
+}
+```
+
+}
+
+window.addEventListener(
+"load",
+() => {
+
+```
+    loadModels();
+
+}
+```
+
+);
